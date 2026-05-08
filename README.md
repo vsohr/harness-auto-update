@@ -45,3 +45,5 @@ if [ -f /mnt/c/git/harness-auto-update/shell-hook.sh ]; then
   . /mnt/c/git/harness-auto-update/shell-hook.sh
 fi
 ```
+
+The hook also keeps the active nvm `bin` directory ahead of `~/.local/bin`, so stale local shims do not shadow the nvm-managed Claude and Codex installs.

@@ -5,10 +5,20 @@ if [ "${HARNESS_AUTO_UPDATE_HOOK_LOADED:-0}" = "1" ]; then
 fi
 export HARNESS_AUTO_UPDATE_HOOK_LOADED=1
 
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  # shellcheck disable=SC1090
+  . "$HOME/.nvm/nvm.sh"
+fi
+
+if [ -n "${NVM_BIN:-}" ] && [ -d "$NVM_BIN" ]; then
+  PATH="$(printf '%s' "$PATH" | awk -v RS=: -v ORS=: -v bin="$NVM_BIN" '$0 != bin { print }' | sed 's/:$//')"
+  export PATH="$NVM_BIN:$PATH"
+fi
+
 if [ -d "$HOME/.local/bin" ]; then
   case ":$PATH:" in
     *":$HOME/.local/bin:"*) ;;
-    *) export PATH="$HOME/.local/bin:$PATH" ;;
+    *) export PATH="$PATH:$HOME/.local/bin" ;;
   esac
 fi
 
